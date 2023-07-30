@@ -1,7 +1,7 @@
 import os, sys
 import gradio as gr
 from src.gradio_demo import SadTalker  
-
+import argparse  # Import the argparse library to handle command-line arguments
 
 try:
     import webui  # in webui
@@ -154,9 +154,11 @@ def sadtalker_demo(checkpoint_path='checkpoints', config_path='src/config', warp
  
 
 if __name__ == "__main__":
-
-    demo = sadtalker_demo()
-    demo.queue()
-    demo.launch()
-
+    parser = argparse.ArgumentParser(description='Customize Gradio host and port.')
+    parser.add_argument('--host', type=str, default='127.0.0.1', help='The host address for Gradio interface. Default is 127.0.0.1.')
+    parser.add_argument('--port', type=int, default=7860, help='The port number for Gradio interface. Default is 7860.')
+    args = parser.parse_args()
+    
+    demo = sadtalker_demo() # Create the Gradio interface
+    demo.launch(server_name=args.host, server_port=args.port) # Launch the Gradio interface using the custom host and port
 
